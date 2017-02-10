@@ -3,13 +3,12 @@
   <head>
     <title>Amazon</title>
     <%= csrf_meta_tags %>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <!-- <a href="/">Home</a> -->
     <%= link_to 'Home', home_path %>
     |
     <%= link_to 'About', about_path %>

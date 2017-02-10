@@ -1,8 +1,7 @@
 class Product < ApplicationRecord
   after_initialize :set_defaults_price
-  before_save :capitalize_title
+  before_save :titleize_title
   before_create :set_sale_price
-
 
   validates :title, presence: true, uniqueness: true
   # validates :title, :price, presence: true
@@ -13,14 +12,27 @@ class Product < ApplicationRecord
   validates :sale_price, numericality: { greater_than_or_equal_to: :price }, if: :sale_price
   validate :reserved_words
 
-
-  private
-
-
   def self.search(query)
     where("title ILIKE ?", "%#{query}%") |
     where("description ILIKE ?", "%#{query}%")
   end
+
+  def self.filtering(search_term, sort_by_column, current_page, per_page_count)
+    current_page = current_page.to_i - 1
+    per_page_count = per_page_count.to_i
+    offset = current_page * per_page_count
+
+    where('title ILIKE ? or description ILIKE ?', "%#{search_term}%", "%#{search_term}%").order("#{sort_by_column} DESC").limit(per_page_count).offset(offset)
+  end
+
+  def increment_hit_count(by = 1)
+    self.hit_count ||= 0
+    self.hit_count += by
+    self.save
+  end
+
+  private
+
 
   def reserved_words
     reserved = ['apple', 'microsoft', 'sony']
@@ -39,12 +51,7 @@ class Product < ApplicationRecord
     self.price ||= 1
   end
 
-  def capitalize_title
-    self.title.titleize
+  def titleize_title
+    self.title = title.titleize if title.present?
   end
 end
-
-# Given a product model with name and price:
-#
-# Write a validation that makes sure that the name is present, unique and that it's not any of these reserved words: Apple, Microsoft & Sony.
-# Note: Use the Amazon app.
