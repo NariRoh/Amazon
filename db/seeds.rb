@@ -10,9 +10,9 @@
   Product.create( title: Faker::Pokemon.name,
                   description: Faker::Pokemon.location,
                   price: Faker::Number.decimal(2) )
-  User.create( first_name: Faker::Name.first_name,
-               last_name: Faker::Name.last_name,
-               email: Faker::Internet.email )
+  # User.create( first_name: Faker::Name.first_name,
+  #              last_name: Faker::Name.last_name,
+  #              email: Faker::Internet.email )
 end
 
 puts '10 products created! & 10 users too!'
@@ -24,3 +24,7 @@ puts '10 products created! & 10 users too!'
 end
 
 puts '30 computers!'
+
+# 10.times do
+#   Category.create( name: Faker::GameOfThrones.house )
+# end

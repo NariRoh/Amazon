@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get '/' => 'home#index', as: :home
+  # get '/' => 'home#index', as: :home
+  root 'home#index'
   get '/about' => 'home#about'
 
   get '/contact' => 'home#contact'
@@ -7,14 +8,23 @@ Rails.application.routes.draw do
 
   get '/faq' => 'home#faq'
 
-  # resources :products
-  get '/products/new' => 'products#new', as: :new_product
-  post '/products' => 'products#create', as: :products
-  get '/products/:id' => 'products#show', as: :product
-  get '/products' => 'products#index'
-  get '/products/:id/edit' => 'products#edit', as: :edit_product
-  patch '/products/:id' => 'products#update'
-  delete '/products/:id' => 'products#destroy'
+  resources :products, shallow: true do
+    resources :reviews, only: [:create, :destroy]
+  end
+
+  resources :users, only: [:new, :create]
+
+  resources :sessions, only: [:new, :create] do
+    delete :destroy, on: :collection
+  end
+  
+  # get '/products/new' => 'products#new', as: :new_product
+  # post '/products' => 'products#create', as: :products
+  # get '/products/:id' => 'products#show', as: :product
+  # get '/products' => 'products#index'
+  # get '/products/:id/edit' => 'products#edit', as: :edit_product
+  # patch '/products/:id' => 'products#update'
+  # delete '/products/:id' => 'products#destroy'
 
   # get ''
   # resources :questions

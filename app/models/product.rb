@@ -1,4 +1,9 @@
 class Product < ApplicationRecord
+  belongs_to :category
+  belongs_to :user
+
+  has_many :reviews, lambda { order(created_at: :desc) }, dependent: :destroy
+
   after_initialize :set_defaults_price
   before_save :titleize_title
   before_create :set_sale_price
@@ -10,6 +15,7 @@ class Product < ApplicationRecord
   validates :price, numericality: { greater_than: 0 }
   validates :description, presence: true, length: { minimum: 10 }
   validates :sale_price, numericality: { greater_than_or_equal_to: :price }, if: :sale_price
+  
   validate :reserved_words
 
   def self.search(query)

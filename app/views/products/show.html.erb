@@ -2,10 +2,49 @@
 
 <p>Title: <%= @product.title %></p>
 <p>Description: <%= @product.description %></p>
-<p>Price: $<%= @product.price %></p>
+<!-- <p>Price: $<%= @product.price %></p> -->
+<p>Price: <%= number_to_currency(@product.price) %>
+<% if @product.user.present? %>
+  <p>Seller: <%= @product.user.full_name %></p>
+<% end %>
 <p>Hit Count: <%= @product.hit_count %></p>
 
+<% if @product.category_id %>
+  <p>Category: <%= @product.category.name %></p>
+<% end %>
+
+<% if can?(:manage, @product) %>
 <%= link_to 'Edit', edit_product_path(@product) %>
 <%= link_to 'Delete', product_path(@product),
                       method: :delete,
                       data: { confirm: 'Are you sure?' }%>
+<% end %>
+
+<hr>
+<h3>Reviews</h3>
+<%= @review.errors.full_messages.join(', ') %>
+<%= form_for [@product, @review] do |f| %>
+  <div>
+    <%= f.label :rating, 'Rating' %>
+    <%= f.number_field :rating %>
+  </div>
+  <div>
+    <%= f.label :body, 'Review' %>
+    <%= f.text_area :body %>
+  </div>
+  <%= f.submit 'Create Review' %>
+<% end %>
+<hr>
+
+<% @product.reviews.each do |review| %>
+  <span><%= review.user.full_name %></span>
+  <span>Rating: <%= review.rating %></span>
+  <span><%= review.body %></span>
+
+  <% if can?(:manage, review) %>
+    <%= link_to 'Delete', review_path(review),
+                          method: :delete,
+                          data: { confirm: 'Are you sure?' } %>
+  <% end %>
+  <br>
+<% end %>
