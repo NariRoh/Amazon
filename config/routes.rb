@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   # get '/' => 'home#index', as: :home
   root 'home#index'
+
+  namespace :admin do
+    resources :panel, only: [:index]
+  end
+
   get '/about' => 'home#about'
 
   get '/contact' => 'home#contact'
@@ -17,7 +22,7 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create] do
     delete :destroy, on: :collection
   end
-  
+
   # get '/products/new' => 'products#new', as: :new_product
   # post '/products' => 'products#create', as: :products
   # get '/products/:id' => 'products#show', as: :product

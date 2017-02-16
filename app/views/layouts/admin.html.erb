@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Amazon</title>
+    <%= csrf_meta_tags %>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <span>Admin Panel: </span>
+    <%= link_to 'Home', root_path %>
+    |
+    <%= link_to 'About', about_path %>
+    |
+    <%= link_to 'Contact Us', contact_path %>
+    |
+    <% if user_signed_in? %>
+      <%= link_to 'Sign Out', sessions_path, method: :delete %>
+
+      <span>Hello, <%= current_user.full_name %></span>
+    <% else %>
+      <%= link_to 'Sign Up', new_user_path %>
+      |
+      <%= link_to 'Sign In', new_session_path %>
+
+      <span>You're not signed in</span>
+    <% end %>
+
+    <hr>
+
+    <%= notice || alert %>
+    <%= yield %>
+  </body>
+</html>

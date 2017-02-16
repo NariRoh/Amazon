@@ -1,0 +1,49 @@
+<h1>Admin Panel</h1>
+
+<p>Product Count: <%= @product_count %></p>
+<p>Review Count: <%= @review_count %></p>
+<p>User Count: <%= @user_count %></p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Products List</div>
+
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>TITLE</th>
+      <th>DESCRIPTION</th>
+      <th>PRICE</th>
+    </tr>
+
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.id %></td>
+        <td><%= product.title %></td>
+        <td><%= product.description %></td>
+        <td><%= product.price %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">User List</div>
+
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>FIRST NAME</th>
+      <th>LAST NAME</th>
+      <th>EMAIL</th>
+    </tr>
+
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.first_name %></td>
+        <td><%= user.last_name %></td>
+        <td><%= user.email %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
