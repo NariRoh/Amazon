@@ -4,19 +4,19 @@ class Product < ApplicationRecord
 
   has_many :reviews, lambda { order(created_at: :desc) }, dependent: :destroy
 
-  after_initialize :set_defaults_price
-  before_save :titleize_title
+  # after_initialize :set_defaults_price
+  # before_save :titleize_title
   before_create :set_sale_price
 
   validates :title, presence: true, uniqueness: true
-  # validates :title, :price, presence: true
-  # validates_presence_of :title, :price
-  # validates_uniqueness_of :title #, :price
+  # # validates :title, :price, presence: true
+  # # validates_presence_of :title, :price
+  # # validates_uniqueness_of :title #, :price
   validates :price, numericality: { greater_than: 0 }
-  validates :description, presence: true, length: { minimum: 10 }
-  validates :sale_price, numericality: { greater_than_or_equal_to: :price }, if: :sale_price
-  
-  validate :reserved_words
+  # validates :description, presence: true, length: { minimum: 10 }
+  validates :sale_price, numericality: { less_than_or_equal_to: :price }, if: :sale_price
+
+  # validate :reserved_words
 
   def self.search(query)
     where("title ILIKE ?", "%#{query}%") |
@@ -30,12 +30,14 @@ class Product < ApplicationRecord
 
     where('title ILIKE ? or description ILIKE ?', "%#{search_term}%", "%#{search_term}%").order("#{sort_by_column} DESC").limit(per_page_count).offset(offset)
   end
+  #
+  # def increment_hit_count(by = 1)
+  #   self.hit_count ||= 0
+  #   self.hit_count += by
+  #   self.save
+  # end
 
-  def increment_hit_count(by = 1)
-    self.hit_count ||= 0
-    self.hit_count += by
-    self.save
-  end
+
 
   private
 
@@ -60,4 +62,25 @@ class Product < ApplicationRecord
   def titleize_title
     self.title = title.titleize if title.present?
   end
+
+  def on_sale?
+    self.sale_price < self.price
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#

@@ -11,17 +11,18 @@ Rails.application.routes.draw do
   get '/contact' => 'home#contact'
   post '/contact_submit' => 'home#contact_submit'
 
-  get '/faq' => 'home#faq'
-
+  # get '/faq' => 'home#faq'
+  
   resources :products, shallow: true do
     resources :reviews, only: [:create, :destroy]
   end
 
   resources :users, only: [:new, :create]
-
+  #
   resources :sessions, only: [:new, :create] do
     delete :destroy, on: :collection
   end
+  # www.amazon.com/sessions
 
   # get '/products/new' => 'products#new', as: :new_product
   # post '/products' => 'products#create', as: :products

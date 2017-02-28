@@ -4,22 +4,27 @@ class ProductsController < ApplicationController
   before_action :authorize, only: [:edit, :update, :destroy]
 
   def new
+    # render nothing: true
     @product = Product.new
   end
 
   def create
     # render json: params[:product]
     @product = Product.new(product_params)
+
     @product.user = current_user
-    if @product.save
+   if @product.save
       redirect_to product_path(@product)
       # render plain: 'success'
     else
       render :new
+      # logger.error "Product failed Validations: \n - #{joined_errors}"
+      logger.error @product.joined_errors
     end
   end
 
   def show
+    head :ok
     @product.increment_hit_count
     @review = Review.new
   end
