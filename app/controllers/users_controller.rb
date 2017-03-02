@@ -11,12 +11,11 @@ class UsersController < ApplicationController
                                                :password,
                                                :password_confirmation)
     @user = User.new user_params
-    # @user.save
     if @user.save
-  #     session[:user_id] = @user.id
+      session[:user_id] = @user.id
       redirect_to root_path, notice: 'Account Created Successfully!'
     else
-  #     flash.now[:alert] = 'Please fix errors!'
+      flash.now[:alert] = 'Please fix errors!'
       render :new
     end
   end

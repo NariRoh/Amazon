@@ -1,6 +1,4 @@
-<h1>Product</h1>
-
-<p>Title: <%= @product.title %></p>
+<h1><%= @product.title %></h1>
 <p>Description: <%= @product.description %></p>
 <!-- <p>Price: $<%= @product.price %></p> -->
 <p>Price: <%= number_to_currency(@product.price) %>
@@ -8,6 +6,20 @@
   <p>Seller: <%= @product.user.full_name %></p>
 <% end %>
 <p>Hit Count: <%= @product.hit_count %></p>
+
+<% if user_signed_in? && can?(:favourite, @product) %>
+  <% if @product.favourited_by?(current_user) %>
+    <%= link_to 'Un Favourite',
+        favourite_path(@product.favourite_for(current_user)),
+        method: :delete,
+        class: 'btn btn-default' %>
+  <% else %>
+    <%= link_to 'Favourite', product_favourites_path(@product),
+                             method: :post,
+                             class: 'btn btn-default' %>
+  <% end %>
+<% end %>
+
 
 <% if @product.category_id %>
   <p>Category: <%= @product.category.name %></p>
@@ -37,9 +49,26 @@
 <hr>
 
 <% @product.reviews.each do |review| %>
-  <span><%= review.user.full_name %></span>
+  <i><%= review.user.full_name %></i>
+  |
   <span>Rating: <%= review.rating %></span>
-  <span><%= review.body %></span>
+  |
+  <%# byebug %>
+  <% if user_signed_in? && can?(:like, @review) %>
+    <% if review.liked_by?(current_user) %>
+      <%= link_to 'Un-Like',
+          like_path(review.like_for(current_user)),
+          method: :delete %>
+    <% else %>
+      <%= link_to 'Like',
+          review_likes_path(review),
+          method: :post %>
+    <% end %>
+  <% end %>
+
+
+  <br>
+  <p><%= review.body %></p>
 
   <% if can?(:manage, review) %>
     <%= link_to 'Delete', review_path(review),

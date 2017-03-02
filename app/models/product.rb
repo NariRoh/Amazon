@@ -4,6 +4,12 @@ class Product < ApplicationRecord
 
   has_many :reviews, lambda { order(created_at: :desc) }, dependent: :destroy
 
+  has_many :favourites, dependent: :destroy
+  has_many :users, through: :favourites
+
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
+
   # after_initialize :set_defaults_price
   # before_save :titleize_title
   before_create :set_sale_price
@@ -30,17 +36,22 @@ class Product < ApplicationRecord
 
     where('title ILIKE ? or description ILIKE ?', "%#{search_term}%", "%#{search_term}%").order("#{sort_by_column} DESC").limit(per_page_count).offset(offset)
   end
-  #
-  # def increment_hit_count(by = 1)
-  #   self.hit_count ||= 0
-  #   self.hit_count += by
-  #   self.save
-  # end
 
+  def increment_hit_count(by = 1)
+    self.hit_count ||= 0
+    self.hit_count += by
+    self.save
+  end
 
+  def favourite_for(user)
+    favourites.find_by(user: user)
+  end
+
+  def favourited_by?(user)
+    favourites.exists?(user: user)
+  end
 
   private
-
 
   def reserved_words
     reserved = ['apple', 'microsoft', 'sony']

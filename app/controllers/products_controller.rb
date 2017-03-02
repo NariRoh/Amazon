@@ -24,7 +24,6 @@ class ProductsController < ApplicationController
   end
 
   def show
-    head :ok
     @product.increment_hit_count
     @review = Review.new
   end

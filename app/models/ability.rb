@@ -6,6 +6,8 @@ class Ability
 
     if user.is_admin?
       can :manage, :all
+    else
+      can :read, :all
     end
 
     can :manage, Product do |p|
@@ -13,6 +15,22 @@ class Ability
     end
 
     can :manage, Review do |r|
+      r.user == user
+    end
+
+    can :favourite, Product do |p|
+      p.user != user
+    end
+
+    cannot :favourite, Product do |p|
+      p.user == user
+    end
+
+    can :like, Review do |r|
+      r.user != user
+    end
+
+    cannot :like, Review do |r|
       r.user == user
     end
 
