@@ -26,6 +26,7 @@ class ProductsController < ApplicationController
   def show
     @product.increment_hit_count
     @review = Review.new
+    @tags = @product.tags
   end
 
   def index
@@ -55,8 +56,33 @@ class ProductsController < ApplicationController
     @product = Product.find params[:id]
   end
 
+  # Parameters: { "utf8"=>"✓",
+  #"authenticity_token"=>"RFmIm/HU1VgiTCD+96KlDcxvkbRbUlf+9trvmztZpcHU3K6iZ9VtNlMrS9lMriMV+fkKZsEO7bfFI3iJ9+DJiw==",
+  #   "product"=>
+  #     {"title"=>"Tempor",
+  #      "category_id"=>"3",
+  #      "description"=>"Deserunt architecto magna et unde velit",
+  #      "price"=>"6",
+  #      "tag_ids"=>["", "4", "6", "7"]},
+  #      "commit"=>"Create Product" }
+  # Unpermitted parameter: tag_ids
+
+  # Parameters: {"utf8"=>"✓",
+  # "authenticity_token"=>"+5xyH3Y9r/nslydBJo8bclI4Eyxh2Swi85qOa0I8ILVrGVQm4DwXl53wTGadg51qZ66I/vuFlmvAYxl5joVM/w==",
+  #   "product"=>
+  #     {"title"=>"Sit ea non mollitia sint accusantium",
+  #      "category_id"=>"5",
+  #      "description"=>"Officia esse beatae non adipisicing", "price"=>"611",
+  #      "tag_ids"=>["", "5", "6", "8", "9"]},
+  #      "commit"=>"Create Product" }
+
   def product_params
-    product_params = params.require(:product).permit(:title, :description, :price, :category_id)
+    product_params = params.require(:product).permit([:title,
+                                                      :description,
+                                                      :price,
+                                                      :category_id,
+                                                      { tag_ids: [] }
+                                                      ])
   end
 
   def authorize

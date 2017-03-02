@@ -28,6 +28,8 @@ Rails.application.routes.draw do
     delete :destroy, on: :collection
   end
 
+  resources :tags, only: [:index, :show]
+
   # www.amazon.com/sessions
 
   # get '/products/new' => 'products#new', as: :new_product

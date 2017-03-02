@@ -7,6 +7,14 @@
 <% end %>
 <p>Hit Count: <%= @product.hit_count %></p>
 
+<p>Tags:
+  <% @tags.each do |tag| %>
+    <%= link_to tag.name, tag %>
+  <% end %>
+</p>
+<br>
+<br>
+
 <% if user_signed_in? && can?(:favourite, @product) %>
   <% if @product.favourited_by?(current_user) %>
     <%= link_to 'Un Favourite',
