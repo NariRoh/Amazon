@@ -34,6 +34,18 @@ class Ability
       r.user == user
     end
 
+    can :vote, Review do |r|
+      r.user != user
+    end
+
+    cannot :vote, Review do |r|
+      r.user == user
+    end
+
+    can :manage, Vote do |v|
+      user == v.user
+    end
+
     # can :manage, Review do |
     # Define abilities for the passed in user here. For example:
     #

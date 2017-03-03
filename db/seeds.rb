@@ -14,7 +14,7 @@
   #              last_name: Faker::Name.last_name,
   #              email: Faker::Internet.email,
   #              password: 'super' )
-  Tag.create name: Faker::StarWars.planet
+  # Tag.create name: Faker::StarWars.planet
 end
 
 puts '10 products created! & 10 users too!'

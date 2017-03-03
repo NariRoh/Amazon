@@ -24,6 +24,7 @@ class ProductsController < ApplicationController
   end
 
   def show
+    # render json: params
     @product.increment_hit_count
     @review = Review.new
     @tags = @product.tags
@@ -77,12 +78,12 @@ class ProductsController < ApplicationController
   #      "commit"=>"Create Product" }
 
   def product_params
-    product_params = params.require(:product).permit([:title,
+    product_params = params.require(:product).permit(:title,
                                                       :description,
                                                       :price,
                                                       :category_id,
-                                                      { tag_ids: [] }
-                                                      ])
+                                                      :tag_ids => []
+                                                      )
   end
 
   def authorize

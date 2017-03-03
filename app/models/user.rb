@@ -10,6 +10,9 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_reviews, through: :likes, source: :review
 
+  has_many :votes, dependent: :destroy
+  has_many :voted_reviews, through: :votes, source: :review
+
   before_validation :downcase_email
   # before_save :full_name
 

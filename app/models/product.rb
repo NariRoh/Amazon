@@ -51,6 +51,10 @@ class Product < ApplicationRecord
     favourites.exists?(user: user)
   end
 
+  def vote_for(user)
+    votes.find_by(user: user)
+  end
+
   private
 
   def reserved_words

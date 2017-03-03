@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :favourites, only: [:create, :destroy]
     resources :reviews, only: [:create, :destroy] do
       resources :likes, only: [:create, :destroy]
+      resources :votes, only: [:create, :update, :destroy]
     end
   end
 
@@ -29,6 +30,7 @@ Rails.application.routes.draw do
   end
 
   resources :tags, only: [:index, :show]
+
 
   # www.amazon.com/sessions
 
