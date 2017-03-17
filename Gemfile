@@ -38,7 +38,13 @@ gem 'faker'
 gem 'cowsay'
 gem 'cancancan'
 
+gem 'delayed_job_active_record'
+gem "delayed_job_web"
+gem 'sinatra', '2.0.0.beta2'
+
 group :development, :test do
+  gem 'letter_opener'
+
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'

@@ -11,9 +11,10 @@ class ProductsController < ApplicationController
   def create
     # render json: params[:product]
     @product = Product.new(product_params)
-
     @product.user = current_user
+
    if @product.save
+      ProductsMailer.notify_product_owner(@product).deliver_later
       redirect_to product_path(@product)
       # render plain: 'success'
     else

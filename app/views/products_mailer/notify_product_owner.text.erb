@@ -1,0 +1,11 @@
+Hello <%= @owner.full_name %>,
+You successfully added a new product:
+Product Title: <%= @product.title %>
+Product Description: <%= @product.description %>
+Product Price: <%= @product.price %>
+Product Sale Price: <%= @product.sale_price %>
+
+<%= link_to 'Click Here to View Your Product', product_url(@product) %>
+
+Regards,
+Amazon Team

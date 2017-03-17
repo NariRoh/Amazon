@@ -21,8 +21,15 @@ class Product < ApplicationRecord
   validates :price, numericality: { greater_than: 0 }
   # validates :description, presence: true, length: { minimum: 10 }
   validates :sale_price, numericality: { less_than_or_equal_to: :price }, if: :sale_price
-
   # validate :reserved_words
+
+  def sort_reviews_by_votes
+    reviews.sort_by { |r| r.votes_total }.reverse
+  end
+
+  # def most_voted_review
+  #   reviews.sort_by { |r| r.votes.count }.last
+  # end
 
   def self.search(query)
     where("title ILIKE ?", "%#{query}%") |
@@ -49,10 +56,6 @@ class Product < ApplicationRecord
 
   def favourited_by?(user)
     favourites.exists?(user: user)
-  end
-
-  def vote_for(user)
-    votes.find_by(user: user)
   end
 
   private

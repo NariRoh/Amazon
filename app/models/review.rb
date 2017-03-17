@@ -14,12 +14,21 @@ class Review < ApplicationRecord
     likes.find_by(user: user)
   end
 
+  def liked_by?(user)
+    likes.exists?(user: user)
+  end
+
+  # def self.most_voted_review_for(product)
+  #   product.reviews.sort_by {|r| r.votes.count}.first
+  # end
+
   def vote_for(user)
     #votes.where(user: user).first
     votes.find_by(user: user)
   end
 
-  def liked_by?(user)
-    likes.exists?(user: user)
+  def votes_total
+    votes.up.count - votes.down.count
   end
+
 end

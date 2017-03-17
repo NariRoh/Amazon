@@ -12,6 +12,7 @@ class ReviewsController < ApplicationController
     @review.user = current_user
 
     if @review.save
+      ReviewsMailer.notify_product_owner(@review).deliver_now
       redirect_to product_path(params[:product_id]), notice: 'Review Created!'
     else
       flash[:alert] = 'Please fix your errors'
