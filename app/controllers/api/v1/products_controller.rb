@@ -12,4 +12,19 @@ class Api::V1::ProductsController < Api::BaseController
 
     render json: product
   end
+
+  def create
+    product_params = params.require(:product).permit(:title,
+                                                     :description,
+                                                     :price,
+                                                     :sale_price,
+                                                     :category_id,
+                                                     :user_id)
+  end
+
+  def update
+  end
+
+  def destroy
+  end
 end
