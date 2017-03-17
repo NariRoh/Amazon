@@ -14,17 +14,45 @@ class Api::V1::ProductsController < Api::BaseController
   end
 
   def create
+    product = Product.new product_params
+    product.user = @user
+
+    if product.save
+      render json: { success: true, id: product.id }
+    else
+      render json: { success: false, errors: product.errors.full_messages }
+    end
+
+  end
+
+  def update
+    product = Product.find params[:id]
+
+    if product.update product_params
+      render json: { success: true, id: product.id }
+    else
+      render json: { success: false, errors: product.errors.full_messages }
+    end
+  end
+
+  def destroy
+    product = Product.find params[:id]
+
+    if product.destroy
+      render json: { success: true }
+    else
+      render json: { success: false, errors: product.errors.full_messages }
+    end
+  end
+
+  private
+
+  def product_params
     product_params = params.require(:product).permit(:title,
                                                      :description,
                                                      :price,
                                                      :sale_price,
                                                      :category_id,
                                                      :user_id)
-  end
-
-  def update
-  end
-
-  def destroy
   end
 end
