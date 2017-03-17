@@ -1,0 +1,28 @@
+<% if vote.nil? %>
+  <%= link_to 'Up', review_votes_path(review, { is_up: true }),
+                    method: :post,
+                    class: 'btn btn-default' %>
+
+  <%= link_to 'Down', review_votes_path(review, { is_up: false }),
+                      method: :post,
+                      class: 'btn btn-default' %>
+
+<!-- 2. User's voted UP : Update & Destroy -->
+<% elsif vote.is_up? %>
+  <%= link_to 'Undo Up', vote_path(vote),
+                         method: :delete,
+                         class: 'btn btn-default' %>
+
+  <%= link_to 'Down', vote_path(vote, { is_up: false }),
+                      method: :patch,
+                      class: 'btn btn-default' %>
+<!-- 3. User's voted Down : Update & Destroy -->
+<% else %>
+  <%= link_to 'Up', vote_path(vote, { is_up: true }),
+                    method: :patch,
+                    class: 'btn btn-default' %>
+
+  <%= link_to 'Undo Down', vote_path(vote),
+                           method: :delete,
+                           class: 'btn btn-default' %>
+<% end %>

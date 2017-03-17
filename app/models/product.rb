@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :category
-  belongs_to :user
+  belongs_to :user, optional: true
 
   has_many :reviews, lambda { order(created_at: :desc) }, dependent: :destroy
 
