@@ -39,6 +39,7 @@ class ProductsController < ApplicationController
   end
 
   def update
+    @product.slug = nil
     if @product.update product_params
       redirect_to product_path(@product)
       # render plain: 'success'

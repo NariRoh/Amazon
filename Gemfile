@@ -44,6 +44,8 @@ gem 'sinatra', '2.0.0.beta2'
 
 gem 'active_model_serializers'
 
+gem 'friendly_id'
+
 group :development, :test do
   gem 'letter_opener'
 

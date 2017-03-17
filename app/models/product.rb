@@ -1,4 +1,7 @@
 class Product < ApplicationRecord
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :history, :finders]
+
   belongs_to :category
   belongs_to :user, optional: true
 

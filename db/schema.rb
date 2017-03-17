@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317175717) do
+ActiveRecord::Schema.define(version: 20170317192552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,18 @@ ActiveRecord::Schema.define(version: 20170317175717) do
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_favourites_on_product_id", using: :btree
     t.index ["user_id"], name: "index_favourites_on_user_id", using: :btree
+  end
+
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string   "slug",                      null: false
+    t.integer  "sluggable_id",              null: false
+    t.string   "sluggable_type", limit: 50
+    t.string   "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
+    t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
+    t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
   end
 
   create_table "likes", force: :cascade do |t|
@@ -49,7 +61,9 @@ ActiveRecord::Schema.define(version: 20170317175717) do
     t.integer  "hit_count"
     t.integer  "category_id"
     t.integer  "user_id"
+    t.string   "slug"
     t.index ["category_id"], name: "index_products_on_category_id", using: :btree
+    t.index ["slug"], name: "index_products_on_slug", unique: true, using: :btree
     t.index ["user_id"], name: "index_products_on_user_id", using: :btree
   end
 
